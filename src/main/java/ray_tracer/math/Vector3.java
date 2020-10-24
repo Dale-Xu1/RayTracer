@@ -103,4 +103,14 @@ public class Vector3
         return "[" + x + ", " + y + ", " + z + "]";
     }
 
+    @Override
+    public boolean equals(Object object)
+    {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Vector3 vector = (Vector3) object;
+
+        return (vector.x == x) && (vector.y == y) && (vector.z == z);
+    }
+
 }
