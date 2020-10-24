@@ -77,11 +77,6 @@ public class Matrix4
         });
     }
 
-    public static Matrix4 scale(double s)
-    {
-        return scale(s, s, s);
-    }
-
 
     private final double[][] data;
 
