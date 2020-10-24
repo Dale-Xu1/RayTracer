@@ -71,4 +71,26 @@ class Matrix4Test
         }), a.transpose());
     }
 
+    @Test
+    public void testInversion()
+    {
+        Matrix4 a = new Matrix4(new double[][]
+        {
+            { 2, 5, 1, 1 },
+            { 6, 3, 0, 2 },
+            { 0, 8, 1, 2 },
+            { 1, 5, 1, 5 }
+        });
+
+        Matrix4 b = a.inverse().mult(a);
+
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                assertEquals(Matrix4.identity.get(i, j), b.get(i, j), 0.01);
+            }
+        }
+    }
+
 }

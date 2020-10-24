@@ -24,6 +24,64 @@ public class Matrix4
         });
     }
 
+    public static Matrix4 rotateX(double a)
+    {
+        double s = Math.sin(a);
+        double c = Math.cos(a);
+
+        return new Matrix4(new double[][]
+        {
+            { 1, 0, 0, 0 },
+            { 0, c,-s, 0 },
+            { 0, s, c, 0 },
+            { 0, 0, 0, 1 }
+        });
+    }
+
+    public static Matrix4 rotateY(double a)
+    {
+        double s = Math.sin(a);
+        double c = Math.cos(a);
+
+        return new Matrix4(new double[][]
+        {
+            { c, 0, s, 0 },
+            { 0, 1, 0, 0 },
+            {-s, 0, c, 0 },
+            { 0, 0, 0, 1 }
+        });
+    }
+
+    public static Matrix4 rotateZ(double a)
+    {
+        double s = Math.sin(a);
+        double c = Math.cos(a);
+
+        return new Matrix4(new double[][]
+        {
+            { c,-s, 0, 0 },
+            { s, c, 0, 0 },
+            { 0, 0, 1, 0 },
+            { 0, 0, 0, 1 }
+        });
+    }
+
+    public static Matrix4 scale(double x, double y, double z)
+    {
+        return new Matrix4(new double[][]
+        {
+            { x, 0, 0, 0 },
+            { 0, y, 0, 0 },
+            { 0, 0, z, 0 },
+            { 0, 0, 0, 1 }
+        });
+    }
+
+    public static Matrix4 scale(double s)
+    {
+        return scale(s, s, s);
+    }
+
 
     private final double[][] data;
 
@@ -31,6 +89,12 @@ public class Matrix4
     public Matrix4(double[][] data)
     {
         this.data = data;
+    }
+
+
+    public double get(int i, int j)
+    {
+        return data[i][j];
     }
 
 
@@ -83,6 +147,59 @@ public class Matrix4
             { data[0][2], data[1][2], data[2][2], data[3][2] },
             { data[0][3], data[1][3], data[2][3], data[3][3] }
         });
+    }
+
+
+    public Matrix4 inverse()
+    {
+        double[][] m = data;
+        double[][] data = new double[4][4];
+
+        double a2323 = (m[2][2] * m[3][3]) - (m[2][3] * m[3][2]);
+        double a1323 = (m[2][1] * m[3][3]) - (m[2][3] * m[3][1]);
+        double a1223 = (m[2][1] * m[3][2]) - (m[2][2] * m[3][1]);
+        double a0323 = (m[2][0] * m[3][3]) - (m[2][3] * m[3][0]);
+        double a0223 = (m[2][0] * m[3][2]) - (m[2][2] * m[3][0]);
+        double a0123 = (m[2][0] * m[3][1]) - (m[2][1] * m[3][0]);
+        double a2313 = (m[1][2] * m[3][3]) - (m[1][3] * m[3][2]);
+        double a1313 = (m[1][1] * m[3][3]) - (m[1][3] * m[3][1]);
+        double a1213 = (m[1][1] * m[3][2]) - (m[1][2] * m[3][1]);
+        double a2312 = (m[1][2] * m[2][3]) - (m[1][3] * m[2][2]);
+        double a1312 = (m[1][1] * m[2][3]) - (m[1][3] * m[2][1]);
+        double a1212 = (m[1][1] * m[2][2]) - (m[1][2] * m[2][1]);
+        double a0313 = (m[1][0] * m[3][3]) - (m[1][3] * m[3][0]);
+        double a0213 = (m[1][0] * m[3][2]) - (m[1][2] * m[3][0]);
+        double a0312 = (m[1][0] * m[2][3]) - (m[1][3] * m[2][0]);
+        double a0212 = (m[1][0] * m[2][2]) - (m[1][2] * m[2][0]);
+        double a0113 = (m[1][0] * m[3][1]) - (m[1][1] * m[3][0]);
+        double a0112 = (m[1][0] * m[2][1]) - (m[1][1] * m[2][0]);
+
+        double determinant = 1 / (m[0][0] * ((m[1][1] * a2323) - (m[1][2] * a1323) + (m[1][3] * a1223))
+                                - m[0][1] * ((m[1][0] * a2323) - (m[1][2] * a0323) + (m[1][3] * a0223))
+                                + m[0][2] * ((m[1][0] * a1323) - (m[1][1] * a0323) + (m[1][3] * a0123))
+                                - m[0][3] * ((m[1][0] * a1223) - (m[1][1] * a0223) + (m[1][2] * a0123)));
+
+        data[0][0] =  determinant * ((m[1][1] * a2323) - (m[1][2] * a1323) + (m[1][3] * a1223));
+        data[0][1] = -determinant * ((m[0][1] * a2323) - (m[0][2] * a1323) + (m[0][3] * a1223));
+        data[0][2] =  determinant * ((m[0][1] * a2313) - (m[0][2] * a1313) + (m[0][3] * a1213));
+        data[0][3] = -determinant * ((m[0][1] * a2312) - (m[0][2] * a1312) + (m[0][3] * a1212));
+
+        data[1][0] = -determinant * ((m[1][0] * a2323) - (m[1][2] * a0323) + (m[1][3] * a0223));
+        data[1][1] =  determinant * ((m[0][0] * a2323) - (m[0][2] * a0323) + (m[0][3] * a0223));
+        data[1][2] = -determinant * ((m[0][0] * a2313) - (m[0][2] * a0313) + (m[0][3] * a0213));
+        data[1][3] =  determinant * ((m[0][0] * a2312) - (m[0][2] * a0312) + (m[0][3] * a0212));
+
+        data[2][0] =  determinant * ((m[1][0] * a1323) - (m[1][1] * a0323) + (m[1][3] * a0123));
+        data[2][1] = -determinant * ((m[0][0] * a1323) - (m[0][1] * a0323) + (m[0][3] * a0123));
+        data[2][2] =  determinant * ((m[0][0] * a1313) - (m[0][1] * a0313) + (m[0][3] * a0113));
+        data[2][3] = -determinant * ((m[0][0] * a1312) - (m[0][1] * a0312) + (m[0][3] * a0112));
+
+        data[3][0] = -determinant * ((m[1][0] * a1223) - (m[1][1] * a0223) + (m[1][2] * a0123));
+        data[3][1] =  determinant * ((m[0][0] * a1223) - (m[0][1] * a0223) + (m[0][2] * a0123));
+        data[3][2] = -determinant * ((m[0][0] * a1213) - (m[0][1] * a0213) + (m[0][2] * a0113));
+        data[3][3] =  determinant * ((m[0][0] * a1212) - (m[0][1] * a0212) + (m[0][2] * a0112));
+
+        return new Matrix4(data);
     }
 
 
