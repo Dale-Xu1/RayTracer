@@ -6,6 +6,9 @@ import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelWriter;
 import ray_tracer.material.Emission;
 import ray_tracer.math.Color;
+import ray_tracer.math.Matrix4;
+import ray_tracer.math.Vector3;
+import ray_tracer.object.geometry.Triangle;
 import ray_tracer.renderer.Camera;
 import ray_tracer.renderer.Scene;
 
@@ -34,11 +37,19 @@ public class RayTracer extends Parent
 
     private void render()
     {
+        Color gray = new Color(.85, .85, .85);
+
         // Create scene
-        Emission background = new Emission(Color.RED);
+        Emission background = new Emission(gray);
         Scene scene = new Scene(background);
 
-        Camera camera = new Camera(WIDTH, HEIGHT);
+        scene.add(new Triangle(new Emission(gray, 3), new Vector3(-1, 0, -1), new Vector3(1, 0, -1), new Vector3(1, 0, 1)));
+        scene.add(new Triangle(new Emission(gray, 0.8), new Vector3(-.7, .1, -1.3), new Vector3(1.3, .1, .7), new Vector3(-.7, .1, .7)));
+        scene.add(new Triangle(new Emission(Color.ORANGE), new Vector3(0, 0, 0), new Vector3(1, 1, 0), new Vector3(1, 0, 0)));
+        scene.add(new Triangle(new Emission(gray, 0.7), new Vector3(.7, 0, .1), new Vector3(-.3, 0, -.2), new Vector3(-.3, 1, -.2)));
+
+        Camera camera = new Camera(WIDTH, HEIGHT, 70);
+        camera.setTransform(Matrix4.lookAt(new Vector3(1, 1.3, -1.3), Vector3.ZERO));
 
         // Render scene
         byte[] pixels = camera.render(scene);

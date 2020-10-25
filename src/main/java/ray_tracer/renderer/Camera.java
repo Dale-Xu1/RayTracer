@@ -46,7 +46,7 @@ public class Camera extends Transformation
                 double y = (1 - 2 * (j + 0.5) / height) * scale;
 
                 // Calculate direction
-                Vector3 direction = getNormalTransform().mult(new Vector3(x, y, -1)).normalize();
+                Vector3 direction = getNormalTransform().mult(new Vector3(x, y, 1)).normalize();
                 Ray ray = new Ray(position, direction);
 
                 // Trace ray

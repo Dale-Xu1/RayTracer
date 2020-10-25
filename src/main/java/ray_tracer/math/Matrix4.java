@@ -77,6 +77,26 @@ public class Matrix4
         });
     }
 
+    public static Matrix4 lookAt(Vector3 position, Vector3 target, Vector3 up)
+    {
+        Vector3 z = target.sub(position).normalize();
+        Vector3 x = up.normalize().cross(z);
+        Vector3 y = z.cross(x);
+
+        return new Matrix4(new double[][]
+        {
+            { x.x, y.x, z.x, position.x },
+            { x.y, y.y, z.y, position.y },
+            { x.z, y.z, z.z, position.z },
+            { 0,   0,   0,   1          }
+        });
+    }
+
+    public static Matrix4 lookAt(Vector3 position, Vector3 target)
+    {
+        return lookAt(position, target, Vector3.UP);
+    }
+
 
     private final double[][] data;
 
