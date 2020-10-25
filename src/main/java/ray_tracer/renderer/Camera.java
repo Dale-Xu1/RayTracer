@@ -1,5 +1,6 @@
 package ray_tracer.renderer;
 
+import ray_tracer.math.Color;
 import ray_tracer.math.Vector3;
 import ray_tracer.object.Ray;
 import ray_tracer.object.Transformation;
@@ -52,11 +53,12 @@ public class Camera extends Transformation
                 Ray ray = new Ray(position, direction);
 
                 // Trace ray
+                Color color = scene.traceRay(ray);
                 int index = (j * width * 3) + (i * 3);
 
-                pixels[index] = -1;
-                pixels[index + 1] = 0;
-                pixels[index + 2] = 0;
+                pixels[index] = (byte) Math.min(color.r * 255, 255);
+                pixels[index + 1] = (byte) Math.min(color.g * 255, 255);
+                pixels[index + 2] = (byte) Math.min(color.b * 255, 255);
             }
         }
 

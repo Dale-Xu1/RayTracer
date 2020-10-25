@@ -88,7 +88,7 @@ class Matrix4Test
         {
             for (int j = 0; j < 4; j++)
             {
-                assertEquals(Matrix4.identity.get(i, j), b.get(i, j), 0.01);
+                assertEquals(Matrix4.IDENTITY.get(i, j), b.get(i, j), 0.01);
             }
         }
     }

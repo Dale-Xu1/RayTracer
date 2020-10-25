@@ -6,8 +6,8 @@ import ray_tracer.math.Vector3;
 public abstract class Transformation
 {
 
-    private Matrix4 transform = Matrix4.identity;
-    private Matrix4 normalTransform = Matrix4.identity;
+    private Matrix4 transform = Matrix4.IDENTITY;
+    private Matrix4 normalTransform = Matrix4.IDENTITY;
 
 
     protected Matrix4 getTransform()

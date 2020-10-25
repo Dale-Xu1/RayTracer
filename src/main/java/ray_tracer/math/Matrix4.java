@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class Matrix4
 {
 
-    public static Matrix4 identity = new Matrix4(new double[][]
+    public static Matrix4 IDENTITY = new Matrix4(new double[][]
     {
         { 1, 0, 0, 0 },
         { 0, 1, 0, 0 },
