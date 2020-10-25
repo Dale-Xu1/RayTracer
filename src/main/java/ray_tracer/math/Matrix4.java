@@ -127,9 +127,8 @@ public class Matrix4
         double x = (data[0][0] * vector.x) + (data[0][1] * vector.y) + (data[0][2] * vector.z) + data[0][3];
         double y = (data[1][0] * vector.x) + (data[1][1] * vector.y) + (data[1][2] * vector.z) + data[1][3];
         double z = (data[2][0] * vector.x) + (data[2][1] * vector.y) + (data[2][2] * vector.z) + data[2][3];
-        double w = (data[3][0] * vector.x) + (data[3][1] * vector.y) + (data[3][2] * vector.z) + data[3][3];
 
-        return new Vector3(x / w, y / w, z / w);
+        return new Vector3(x, y, z);
     }
 
 
