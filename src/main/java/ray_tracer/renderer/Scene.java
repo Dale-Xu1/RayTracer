@@ -1,22 +1,32 @@
 package ray_tracer.renderer;
 
+import ray_tracer.material.Emission;
 import ray_tracer.math.Color;
+import ray_tracer.object.Intersection;
 import ray_tracer.object.Ray;
+import ray_tracer.object.geometry.Geometry;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Scene
 {
 
+    private final Emission background;
+    private final List<Geometry> objects = new ArrayList<>();
+
     private final int maxDepth;
 
 
-    public Scene(int maxDepth)
+    public Scene(Emission background, int maxDepth)
     {
+        this.background = background;
         this.maxDepth = maxDepth;
     }
 
-    public Scene()
+    public Scene(Emission background)
     {
-        this(4);
+        this(background, 4);
     }
 
 
@@ -28,7 +38,40 @@ public class Scene
             return Color.BLACK;
         }
 
-        return Color.PURPLE;
+        Intersection minIntersection = null;
+
+        // Test intersection with all objects
+        for (Geometry object : objects)
+        {
+            Intersection intersection = object.isIntersecting(ray);
+
+            // Get closest intersection
+            if (intersection != null &&
+               (minIntersection == null || intersection.getDistance() < minIntersection.getDistance()))
+            {
+                minIntersection = intersection;
+            }
+        }
+
+        if (minIntersection != null)
+        {
+            // Apply shader
+            return minIntersection.getMaterial().shader(this, minIntersection);
+        }
+
+        // Default to background color
+        return background.shader(this, null);
+    }
+
+
+    public void add(Geometry object)
+    {
+        objects.add(object);
+    }
+
+    public void remove(Geometry object)
+    {
+        objects.remove(object);
     }
 
 }

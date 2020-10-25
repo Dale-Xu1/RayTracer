@@ -4,6 +4,8 @@ import javafx.scene.Parent;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelWriter;
+import ray_tracer.material.Emission;
+import ray_tracer.math.Color;
 import ray_tracer.renderer.Camera;
 import ray_tracer.renderer.Scene;
 
@@ -33,7 +35,9 @@ public class RayTracer extends Parent
     private void render()
     {
         // Create scene
-        Scene scene = new Scene();
+        Emission background = new Emission(Color.RED);
+        Scene scene = new Scene(background);
+
         Camera camera = new Camera(WIDTH, HEIGHT);
 
         // Render scene

@@ -16,7 +16,7 @@ public abstract class Material
     }
 
 
-    public Color getColor()
+    protected Color getColor()
     {
         return color;
     }
