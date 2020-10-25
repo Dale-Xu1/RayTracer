@@ -1,9 +1,7 @@
 package ray_tracer;
 
 import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.stage.Stage;
 
 public class Main extends Application
@@ -17,16 +15,12 @@ public class Main extends Application
     @Override
     public void start(Stage stage)
     {
-        // Create root
-        Group root = new Group();
-
-        // Create canvas
-        Canvas canvas = new Canvas(1280, 720);
-        root.getChildren().add(canvas);
+        // Create application
+        RayTracer rayTracer = new RayTracer();
 
         // Initialize stage
         stage.setTitle("Ray Tracer");
-        stage.setScene(new Scene(root));
+        stage.setScene(new Scene(rayTracer));
         stage.show();
     }
 

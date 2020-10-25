@@ -7,7 +7,7 @@ import ray_tracer.object.Transformation;
 public class Camera extends Transformation
 {
 
-    private static final Vector3 origin = new Vector3(0, 0, 0);
+    private static final Vector3 ORIGIN = new Vector3(0, 0, 0);
 
 
     private final int width;
@@ -15,7 +15,7 @@ public class Camera extends Transformation
 
     private final double fov;
 
-    private Vector3 position = origin;
+    private Vector3 position = ORIGIN;
 
 
     public Camera(int width, int height, double fov)
@@ -31,8 +31,10 @@ public class Camera extends Transformation
     }
 
 
-    public void render()
+    public byte[] render(Scene scene)
     {
+        byte[] pixels = new byte[width * height * 3];
+
         // Calculate scales
         double scale = Math.tan((fov * 0.5) * Math.PI / 180);
         double aspectRatio = (double) width / height;
@@ -48,15 +50,24 @@ public class Camera extends Transformation
                 // Calculate direction
                 Vector3 direction = getNormalTransform().mult(new Vector3(x, y, -1)).normalize();
                 Ray ray = new Ray(position, direction);
+
+                // Trace ray
+                int index = (j * width * 3) + (i * 3);
+
+                pixels[index] = -1;
+                pixels[index + 1] = 0;
+                pixels[index + 2] = 0;
             }
         }
+
+        return pixels;
     }
 
 
     @Override
     protected void transform()
     {
-        position = getTransform().mult(origin);
+        position = getTransform().mult(ORIGIN);
     }
 
 }
