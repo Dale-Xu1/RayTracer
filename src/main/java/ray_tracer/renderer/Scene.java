@@ -20,20 +20,15 @@ public class Scene
     }
 
 
-    public Color traceRay(Ray ray, int depth)
+    public Color traceRay(Ray ray)
     {
         // This is black because light can't come from nowhere
-        if (depth > maxDepth)
+        if (ray.getDepth() > maxDepth)
         {
             return Color.BLACK;
         }
 
         return Color.PURPLE;
-    }
-
-    public Color traceRay(Ray ray)
-    {
-        return traceRay(ray, 0);
     }
 
 }

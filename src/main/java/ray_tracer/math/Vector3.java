@@ -3,6 +3,15 @@ package ray_tracer.math;
 public class Vector3
 {
 
+    public static final Vector3 ZERO = new Vector3(0, 0, 0);
+    public static final Vector3 UP = new Vector3(0, 1, 0); // TODO: Verify
+    public static final Vector3 DOWN = new Vector3(0, -1, 0);
+    public static final Vector3 LEFT = new Vector3(-1, 0, 0);
+    public static final Vector3 RIGHT = new Vector3(1, 0, 0);
+    public static final Vector3 FORWARD = new Vector3(0, 0, 1);
+    public static final Vector3 BACKWARD = new Vector3(0, 0, -1);
+
+
     public final double x;
     public final double y;
     public final double z;

@@ -8,15 +8,12 @@ import ray_tracer.object.Transformation;
 public class Camera extends Transformation
 {
 
-    private static final Vector3 ORIGIN = new Vector3(0, 0, 0);
-
-
     private final int width;
     private final int height;
 
     private final double fov;
 
-    private Vector3 position = ORIGIN;
+    private Vector3 position = Vector3.ZERO;
 
 
     public Camera(int width, int height, double fov)
@@ -69,7 +66,7 @@ public class Camera extends Transformation
     @Override
     protected void transform()
     {
-        position = getTransform().mult(ORIGIN);
+        position = getTransform().mult(Vector3.ZERO);
     }
 
 }
