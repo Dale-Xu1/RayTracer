@@ -8,12 +8,12 @@ import ray_tracer.object.Transformation;
 public class Camera extends Transformation
 {
 
+    private Vector3 position = Vector3.ZERO;
+
     private final int width;
     private final int height;
 
     private final double fov;
-
-    private Vector3 position = Vector3.ZERO;
 
 
     public Camera(int width, int height, double fov)
