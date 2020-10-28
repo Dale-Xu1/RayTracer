@@ -33,10 +33,7 @@ public class Scene
     public Color traceRay(Ray ray)
     {
         // This is black because light can't come from nowhere
-        if (ray.getDepth() > maxDepth)
-        {
-            return Color.BLACK;
-        }
+        if (ray.getDepth() > maxDepth) return Color.BLACK;
 
         Intersection minIntersection = null;
 
@@ -46,10 +43,15 @@ public class Scene
             Intersection intersection = object.isIntersecting(ray);
 
             // Get closest intersection
-            if (intersection != null &&
-               (minIntersection == null || intersection.getDistance() < minIntersection.getDistance()))
+            if (intersection != null)
             {
-                minIntersection = intersection;
+                double distance = intersection.getDistance();
+
+                // Replace if no intersection exists or distance is smaller
+                if (distance > 1e-5 && (minIntersection == null || distance < minIntersection.getDistance()))
+                {
+                    minIntersection = intersection;
+                }
             }
         }
 
