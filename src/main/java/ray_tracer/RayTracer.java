@@ -47,7 +47,9 @@ public class RayTracer extends Parent
         scene.add(new Triangle(new Emission(gray, 3), new Vector3(-1, 0, -1), new Vector3(1, 0, -1), new Vector3(1, 0, 1)));
         scene.add(new Triangle(new Emission(gray, 0.8), new Vector3(-.7, .1, -1.3), new Vector3(1.3, .1, .7), new Vector3(-.7, .1, .7)));
         scene.add(new Triangle(new Emission(Color.ORANGE), new Vector3(0, 0, 0), new Vector3(1, 1, 0), new Vector3(1, 0, 0)));
-        scene.add(new Triangle(new Glossy(gray), new Vector3(.7, 0, .1), new Vector3(-.3, 0, -.2), new Vector3(-.3, 1, -.2)));
+
+        Triangle t = new Triangle(new Glossy(gray), new Vector3(.7, 0, .1), new Vector3(-.3, 0, -.2), new Vector3(-.3, 1, -.2));
+        scene.add(t);
 
         Camera camera = new Camera(WIDTH, HEIGHT, 70);
         camera.setTransform(Matrix4.lookAt(new Vector3(1, 1.3, -1.3), Vector3.ZERO));

@@ -7,7 +7,7 @@ import ray_tracer.renderer.Scene;
 public abstract class Material
 {
 
-    private final Color color;
+    private Color color;
 
 
     protected Material(Color color)
@@ -16,10 +16,16 @@ public abstract class Material
     }
 
 
-    protected Color getColor()
+    public Color getColor()
     {
         return color;
     }
+
+    public void setColor(Color color)
+    {
+        this.color = color;
+    }
+
 
     public abstract Color shader(Scene scene, Intersection intersection);
 

@@ -8,10 +8,10 @@ import ray_tracer.object.Ray;
 public class Triangle extends Geometry
 {
 
-    private final Vector3 base1;
-    private final Vector3 base2;
-    private final Vector3 base3;
-    private final Vector3 baseNormal;
+    private Vector3 base1;
+    private Vector3 base2;
+    private Vector3 base3;
+    private Vector3 baseNormal;
 
     private Vector3 v1;
     private Vector3 v2;
@@ -27,11 +27,56 @@ public class Triangle extends Geometry
         this.v2 = base2 = v2;
         this.v3 = base3 = v3;
 
-        // Calculate normal
-        Vector3 e1 = v2.sub(v1);
-        Vector3 e2 = v3.sub(v1);
+        this.normal = baseNormal = calculateNormal();
+    }
 
-        this.normal = baseNormal = e1.cross(e2).normalize();
+    private Vector3 calculateNormal()
+    {
+        // Cross product gets vector perpendicular to plane triangle is on
+        Vector3 e1 = base2.sub(base1);
+        Vector3 e2 = base3.sub(base1);
+
+        return e1.cross(e2).normalize();
+    }
+
+
+    public Vector3 getVertex1()
+    {
+        return base1;
+    }
+
+    public void setVertex1(Vector3 vertex)
+    {
+        base1 = vertex;
+        baseNormal = calculateNormal();
+
+        transform();
+    }
+
+    public Vector3 getVertex2()
+    {
+        return base2;
+    }
+
+    public void setVertex2(Vector3 vertex)
+    {
+        base2 = vertex;
+        baseNormal = calculateNormal();
+
+        transform();
+    }
+
+    public Vector3 getVertex3()
+    {
+        return base3;
+    }
+
+    public void setVertex3(Vector3 vertex)
+    {
+        base3 = vertex;
+        baseNormal = calculateNormal();
+
+        transform();
     }
 
 

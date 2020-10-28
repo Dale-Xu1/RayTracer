@@ -8,7 +8,7 @@ import ray_tracer.object.Transformation;
 public abstract class Geometry extends Transformation
 {
 
-    private final Material material;
+    private Material material;
 
 
     protected Geometry(Material material)
@@ -17,10 +17,16 @@ public abstract class Geometry extends Transformation
     }
 
 
-    protected Material getMaterial()
+    public Material getMaterial()
     {
         return material;
     }
+
+    public void setMaterial(Material material)
+    {
+        this.material = material;
+    }
+
 
     public abstract Intersection isIntersecting(Ray ray);
 

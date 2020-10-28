@@ -7,21 +7,36 @@ import ray_tracer.renderer.Scene;
 public class Emission extends Material
 {
 
+    private double strength;
+
+
     public Emission(Color color, double strength)
     {
-        super(color.mult(strength));
+        super(color);
+        this.strength = strength;
     }
 
     public Emission(Color color)
     {
-        super(color);
+        this(color, 1);
+    }
+
+
+    public double getStrength()
+    {
+        return strength;
+    }
+
+    public void setStrength(double strength)
+    {
+        this.strength = strength;
     }
 
 
     @Override
     public Color shader(Scene scene, Intersection intersection)
     {
-        return getColor();
+        return getColor().mult(strength);
     }
 
 }
