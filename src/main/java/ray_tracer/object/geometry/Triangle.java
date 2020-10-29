@@ -92,7 +92,7 @@ public class Triangle extends Geometry
         Vector3 h = dir.cross(e2);
         double a = e1.dot(h);
 
-        if (Math.abs(a) < 1e-5) return null;
+        if (Math.abs(a) < Vector3.EPSILON) return null;
 
         double f = 1 / a;
 

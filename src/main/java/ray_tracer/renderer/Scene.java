@@ -2,6 +2,7 @@ package ray_tracer.renderer;
 
 import ray_tracer.material.Emission;
 import ray_tracer.math.Color;
+import ray_tracer.math.Vector3;
 import ray_tracer.object.Intersection;
 import ray_tracer.object.Ray;
 import ray_tracer.object.geometry.Geometry;
@@ -13,7 +14,7 @@ public class Scene
 {
 
     private final Emission background;
-    private final List<Geometry> objects = new ArrayList<>();
+    private final List<Geometry> objects = new ArrayList<>(); // TODO: Lights
 
     private final int maxDepth;
 
@@ -48,7 +49,7 @@ public class Scene
                 double distance = intersection.getDistance();
 
                 // Replace if no intersection exists or distance is smaller
-                if (distance > 1e-5 && (minIntersection == null || distance < minIntersection.getDistance()))
+                if (distance > Vector3.EPSILON && (minIntersection == null || distance < minIntersection.getDistance()))
                 {
                     minIntersection = intersection;
                 }

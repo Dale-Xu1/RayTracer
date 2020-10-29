@@ -9,6 +9,7 @@ import ray_tracer.material.Glossy;
 import ray_tracer.math.Color;
 import ray_tracer.math.Matrix4;
 import ray_tracer.math.Vector3;
+import ray_tracer.object.geometry.Mesh;
 import ray_tracer.object.geometry.Sphere;
 import ray_tracer.object.geometry.Triangle;
 import ray_tracer.renderer.Camera;
@@ -45,12 +46,36 @@ public class RayTracer extends Parent
         Emission background = new Emission(gray);
         Scene scene = new Scene(background);
 
-        scene.add(new Triangle(new Emission(gray, 3), new Vector3(-1, 0, -1), new Vector3(1, 0, -1), new Vector3(1, 0, 1)));
-        scene.add(new Triangle(new Emission(gray, 0.8), new Vector3(-.7, .1, -1.3), new Vector3(1.3, .1, .7), new Vector3(-.7, .1, .7)));
-        scene.add(new Triangle(new Emission(Color.ORANGE), new Vector3(0, 0, 0), new Vector3(1, 1, 0), new Vector3(1, 0, 0)));
-        scene.add(new Triangle(new Glossy(gray), new Vector3(.7, 0, .1), new Vector3(-.3, 0, -.2), new Vector3(-.3, 1, -.2)));
+        scene.add(new Triangle(
+            new Emission(Color.WHITE, 3),
+            new Vector3(-1, 0, -1),
+            new Vector3(1, 0, -1),
+            new Vector3(1, 0, 1)
+        ));
 
-        Sphere sphere = new Sphere(new Glossy(gray), 0.5);
+        scene.add(new Mesh(
+            new Triangle(
+                new Emission(gray, 0.8),
+                new Vector3(-.7, .1, -1.3),
+                new Vector3(1.3, .1, .7),
+                new Vector3(-.7, .1, .7)
+            ),
+            new Triangle(
+                new Emission(Color.ORANGE),
+                new Vector3(0, 0, 0),
+                new Vector3(1, 1, 0),
+                new Vector3(1, 0, 0)
+            )
+        ));
+
+        scene.add(new Triangle(
+            new Glossy(gray),
+            new Vector3(.7, 0, .1),
+            new Vector3(-.3, 0, -.2),
+            new Vector3(-.3, 1, -.2)
+        ));
+
+        Sphere sphere = new Sphere(new Glossy(new Color(.7, .8, 1)), 0.5);
         sphere.translate(new Vector3(-.6, .1, -.5));
         scene.add(sphere);
 
