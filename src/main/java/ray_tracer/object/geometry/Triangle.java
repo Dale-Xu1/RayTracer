@@ -108,8 +108,9 @@ public class Triangle extends Geometry
 
         double distance = f * e2.dot(q);
         Vector3 position = pos.add(dir.mult(distance));
+        Vector3 surface = (a < Vector3.EPSILON) ? normal.negate() : normal;
 
-        return new Intersection(ray, position, normal, distance, getMaterial());
+        return new Intersection(ray, position, surface, distance, getMaterial());
     }
 
     @Override

@@ -4,8 +4,10 @@ import javafx.scene.Parent;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelWriter;
+import ray_tracer.material.Diffuse;
 import ray_tracer.material.Emission;
 import ray_tracer.material.Glossy;
+import ray_tracer.material.Mirror;
 import ray_tracer.math.Color;
 import ray_tracer.math.Matrix4;
 import ray_tracer.math.Vector3;
@@ -34,7 +36,7 @@ public class RayTracer extends Parent
         getChildren().add(canvas);
 
         writer = canvas.getGraphicsContext2D().getPixelWriter();
-        render();
+        new Thread(this::render).start();
     }
 
 
@@ -55,13 +57,13 @@ public class RayTracer extends Parent
 
         scene.add(new Mesh(
             new Triangle(
-                new Emission(gray, 0.8),
+                new Diffuse(gray),
                 new Vector3(-.7, .1, -1.3),
                 new Vector3(1.3, .1, .7),
                 new Vector3(-.7, .1, .7)
             ),
             new Triangle(
-                new Emission(Color.ORANGE),
+                new Diffuse(Color.ORANGE),
                 new Vector3(0, 0, 0),
                 new Vector3(1, 1, 0),
                 new Vector3(1, 0, 0)
@@ -69,7 +71,7 @@ public class RayTracer extends Parent
         ));
 
         scene.add(new Triangle(
-            new Glossy(gray),
+            new Mirror(gray),
             new Vector3(.7, 0, .1),
             new Vector3(-.3, 0, -.2),
             new Vector3(-.3, 1, -.2)

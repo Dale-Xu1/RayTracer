@@ -9,25 +9,33 @@ import ray_tracer.object.geometry.Geometry;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Scene
 {
 
-    private final Emission background;
+    private Emission background;
     private final List<Geometry> objects = new ArrayList<>(); // TODO: Lights
 
-    private final int maxDepth;
+    private Random random;
+
+    private int samples;
+    private int seed;
+    private int maxDepth;
 
 
-    public Scene(Emission background, int maxDepth)
+    public Scene(Emission background, int samples, int seed, int maxDepth)
     {
         this.background = background;
+        this.samples = samples;
         this.maxDepth = maxDepth;
+
+        setSeed(seed);
     }
 
     public Scene(Emission background)
     {
-        this(background, 4);
+        this(background, 8, 0, 4);
     }
 
 
@@ -66,6 +74,24 @@ public class Scene
         return background.shader(this, null);
     }
 
+    public Vector3 randomInSphere()
+    {
+        // Sample random location within a sphere
+        double u = random.nextDouble();
+        double v = random.nextDouble();
+
+        double theta = u * (Math.PI * 2);
+        double phi = Math.acos((v * 2) - 1);
+
+        double r = Math.cbrt(Math.random());
+
+        return new Vector3(
+            r * Math.sin(phi) * Math.cos(theta),
+            r * Math.sin(phi) * Math.sin(theta),
+            r * Math.cos(phi)
+        );
+    }
+
 
     public void add(Geometry object)
     {
@@ -75,6 +101,48 @@ public class Scene
     public void remove(Geometry object)
     {
         objects.remove(object);
+    }
+
+
+    public Emission getBackground()
+    {
+        return background;
+    }
+
+    public void setBackground(Emission background)
+    {
+        this.background = background;
+    }
+
+    public int getSamples()
+    {
+        return samples;
+    }
+
+    public void setSamples(int samples)
+    {
+        this.samples = samples;
+    }
+
+    public int getSeed()
+    {
+        return seed;
+    }
+
+    public void setSeed(int seed)
+    {
+        this.seed = seed;
+        this.random = new Random(seed);
+    }
+
+    public int getMaxDepth()
+    {
+        return maxDepth;
+    }
+
+    public void setMaxDepth(int maxDepth)
+    {
+        this.maxDepth = maxDepth;
     }
 
 }
