@@ -42,14 +42,14 @@ public class RayTracer extends Parent
 
     private void render()
     {
-        Color gray = new Color(.85, .85, .85);
+        Color gray = new Color(0.85, 0.85, 0.85);
 
         // Create scene
         Emission background = new Emission(gray);
-        Scene scene = new Scene(background);
+        Scene scene = new Scene(background, 16, 0, 4);
 
         scene.add(new Triangle(
-            new Emission(Color.WHITE, 3),
+            new Emission(Color.WHITE, 2),
             new Vector3(-1, 0, -1),
             new Vector3(1, 0, -1),
             new Vector3(1, 0, 1)
@@ -58,12 +58,12 @@ public class RayTracer extends Parent
         scene.add(new Mesh(
             new Triangle(
                 new Diffuse(gray),
-                new Vector3(-.7, .1, -1.3),
-                new Vector3(1.3, .1, .7),
-                new Vector3(-.7, .1, .7)
+                new Vector3(-0.7, 0.1, -1.3),
+                new Vector3(1.3, 0.1, 0.7),
+                new Vector3(-0.7, 0.1, 0.7)
             ),
             new Triangle(
-                new Diffuse(Color.ORANGE),
+                new Diffuse(new Color(1, 0.35, 0.35)),
                 new Vector3(0, 0, 0),
                 new Vector3(1, 1, 0),
                 new Vector3(1, 0, 0)
@@ -72,13 +72,13 @@ public class RayTracer extends Parent
 
         scene.add(new Triangle(
             new Mirror(gray),
-            new Vector3(.7, 0, .1),
-            new Vector3(-.3, 0, -.2),
-            new Vector3(-.3, 1, -.2)
+            new Vector3(0.7, 0, 0.1),
+            new Vector3(-0.3, 0, -0.2),
+            new Vector3(-0.3, 1, -0.2)
         ));
 
-        Sphere sphere = new Sphere(new Glossy(new Color(.7, .8, 1)), 0.5);
-        sphere.translate(new Vector3(-.6, .1, -.5));
+        Sphere sphere = new Sphere(new Glossy(new Color(0.7, 0.8, 1)), 0.5);
+        sphere.translate(new Vector3(-0.6, 0.1, -0.5));
         scene.add(sphere);
 
         Camera camera = new Camera(WIDTH, HEIGHT, 70);

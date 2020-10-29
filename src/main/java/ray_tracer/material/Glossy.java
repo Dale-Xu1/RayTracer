@@ -9,9 +9,29 @@ import ray_tracer.renderer.Scene;
 public class Glossy extends Material
 {
 
-    public Glossy(Color color)
+    private double roughness;
+
+
+    public Glossy(Color color, double roughness)
     {
         super(color);
+        this.roughness = roughness;
+    }
+
+    public Glossy(Color color)
+    {
+        this(color, 0.5);
+    }
+
+
+    public double getRoughness()
+    {
+        return roughness;
+    }
+
+    public void setRoughness(double roughness)
+    {
+        this.roughness = roughness;
     }
 
 
@@ -24,11 +44,24 @@ public class Glossy extends Material
         Vector3 direction = ray.getDirection();
         Vector3 normal = intersection.getNormal();
 
-        // Calculate reflection ray
-        Vector3 reflection = direction.sub(normal.mult(2 * normal.dot(direction)));
-        Ray reflectionRay = new Ray(intersection.getPosition(), reflection, ray.getDepth() + 1);
+        // Sample indirect lighting
+        int samples = scene.getSamples();
+        Color indirect = Color.BLACK;
 
-        return getColor().mult(scene.traceRay(reflectionRay));
+        for (int i = 0; i < samples; i++)
+        {
+            // Sample roughness value
+            Vector3 sample = scene.randomInSphere().mult(roughness);
+
+            // Calculate reflection ray
+            Vector3 reflection = direction.sub(normal.mult(2 * normal.dot(direction))).add(sample);
+            Ray reflectionRay = new Ray(intersection.getPosition(), reflection, ray.getDepth() + 1);
+
+            indirect = indirect.add(scene.traceRay(reflectionRay));
+        }
+
+        // Take average of samples
+        return getColor().mult(indirect.div(samples));
     }
 
 }
