@@ -73,8 +73,4 @@ public class Camera extends Transformation
         return pixels;
     }
 
-
-    @Override
-    protected void transform() { }
-
 }

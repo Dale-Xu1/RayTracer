@@ -78,11 +78,6 @@ public abstract class Transformation
         normalTransform = transform.inverse().transpose();
 
         position = getTransform().mult(Vector3.ZERO);
-
-        // Transform data
-        transform();
     }
-
-    protected abstract void transform();
 
 }

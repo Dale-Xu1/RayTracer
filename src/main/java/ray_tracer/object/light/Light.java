@@ -25,8 +25,4 @@ public abstract class Light extends Transformation
         this.emission = emission;
     }
 
-
-    @Override
-    protected void transform() { }
-
 }

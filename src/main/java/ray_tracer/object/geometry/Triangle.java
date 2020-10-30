@@ -1,6 +1,7 @@
 package ray_tracer.object.geometry;
 
 import ray_tracer.material.Material;
+import ray_tracer.math.Matrix4;
 import ray_tracer.math.Vector3;
 import ray_tracer.object.Intersection;
 import ray_tracer.object.Ray;
@@ -113,13 +114,22 @@ public class Triangle extends Geometry
         return new Intersection(ray, position, surface, distance, getMaterial());
     }
 
+
     @Override
-    protected void transform()
+    public void setTransform(Matrix4 transform)
     {
+        super.setTransform(transform);
+        transform();
+    }
+
+    private void transform()
+    {
+        Matrix4 transform = getTransform();
+
         // Transform vertices
-        v1 = getTransform().mult(base1);
-        v2 = getTransform().mult(base2);
-        v3 = getTransform().mult(base3);
+        v1 = transform.mult(base1);
+        v2 = transform.mult(base2);
+        v3 = transform.mult(base3);
 
         // Transform normal
         normal = getNormalTransform().mult(baseNormal).normalize();

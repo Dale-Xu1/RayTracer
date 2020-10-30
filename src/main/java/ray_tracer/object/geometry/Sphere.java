@@ -56,7 +56,4 @@ public class Sphere extends Geometry
         return new Intersection(ray, intersection, normal, distance, getMaterial());
     }
 
-    @Override
-    protected void transform() { }
-
 }
