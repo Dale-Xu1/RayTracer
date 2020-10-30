@@ -7,7 +7,6 @@ import javafx.scene.image.PixelWriter;
 import ray_tracer.material.Diffuse;
 import ray_tracer.material.Emission;
 import ray_tracer.material.Glossy;
-import ray_tracer.material.Mirror;
 import ray_tracer.math.Color;
 import ray_tracer.math.Matrix4;
 import ray_tracer.math.Vector3;
@@ -40,7 +39,7 @@ public class RayTracer extends Parent
     }
 
 
-    private void render()
+    private void render() // TODO: Refraction and fresnel
     {
         Color gray = new Color(0.85, 0.85, 0.85);
 
@@ -48,14 +47,14 @@ public class RayTracer extends Parent
         Emission background = new Emission(gray);
         Scene scene = new Scene(background, 20, 0, 4);
 
-        scene.add(new Triangle(
+        scene.addObject(new Triangle(
             new Emission(Color.WHITE, 2),
             new Vector3(-1, 0, -1),
             new Vector3(1, 0, -1),
             new Vector3(1, 0, 1)
         ));
 
-        scene.add(new Mesh(
+        scene.addObject(new Mesh(
             new Triangle(
                 new Diffuse(gray),
                 new Vector3(-0.7, 0.1, -1.3),
@@ -70,8 +69,8 @@ public class RayTracer extends Parent
             )
         ));
 
-        scene.add(new Triangle(
-            new Mirror(gray),
+        scene.addObject(new Triangle(
+            new Glossy(gray, 0),
             new Vector3(0.7, 0, 0.1),
             new Vector3(-0.3, 0, -0.2),
             new Vector3(-0.3, 1, -0.2)
@@ -79,7 +78,7 @@ public class RayTracer extends Parent
 
         Sphere sphere = new Sphere(new Glossy(new Color(0.7, 0.8, 1)), 0.5);
         sphere.translate(new Vector3(-0.6, 0.1, -0.5));
-        scene.add(sphere);
+        scene.addObject(sphere);
 
         Camera camera = new Camera(WIDTH, HEIGHT, 70);
         camera.setTransform(Matrix4.lookAt(new Vector3(1, 1.3, -1.3), Vector3.ZERO));

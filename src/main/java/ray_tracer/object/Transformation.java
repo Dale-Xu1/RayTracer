@@ -9,6 +9,8 @@ public abstract class Transformation
     private Matrix4 transform = Matrix4.IDENTITY;
     private Matrix4 normalTransform = Matrix4.IDENTITY;
 
+    private Vector3 position = Vector3.ZERO;
+
 
     protected Matrix4 getTransform()
     {
@@ -18,6 +20,11 @@ public abstract class Transformation
     protected Matrix4 getNormalTransform()
     {
         return normalTransform;
+    }
+
+    protected Vector3 getPosition()
+    {
+        return position;
     }
 
 
@@ -66,8 +73,11 @@ public abstract class Transformation
 
     public void setTransform(Matrix4 transform)
     {
+        // Set transformation
         this.transform = transform;
         normalTransform = transform.inverse().transpose();
+
+        position = getTransform().mult(Vector3.ZERO);
 
         // Transform data
         transform();

@@ -45,7 +45,7 @@ public class Glossy extends Material
         Vector3 normal = intersection.getNormal();
 
         // Sample indirect lighting
-        int samples = scene.getSamples();
+        int samples = (roughness == 0) ? 1 : scene.getSamples();
         Color indirect = Color.BLACK;
 
         for (int i = 0; i < samples; i++)

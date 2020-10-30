@@ -8,7 +8,6 @@ import ray_tracer.object.Ray;
 public class Sphere extends Geometry
 {
 
-    private Vector3 position = Vector3.ZERO;
     private double radius;
 
 
@@ -33,6 +32,9 @@ public class Sphere extends Geometry
     @Override
     public Intersection isIntersecting(Ray ray)
     {
+        // Get data
+        Vector3 position = getPosition();
+
         Vector3 pos = ray.getPosition();
         Vector3 dir = ray.getDirection();
 
@@ -55,9 +57,6 @@ public class Sphere extends Geometry
     }
 
     @Override
-    protected void transform()
-    {
-        position = getTransform().mult(Vector3.ZERO);
-    }
+    protected void transform() { }
 
 }

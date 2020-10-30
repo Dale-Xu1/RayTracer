@@ -82,7 +82,7 @@ public class Scene
         return new Vector3(Math.cos(a) * r, Math.sin(a) * r, 0);
     }
 
-    public Vector3 randomInSphere()
+    public Vector3 randomInSphere() // TODO: Move to Vector3
     {
         // Sample random location within a sphere
         double u = random.nextDouble();
@@ -101,12 +101,12 @@ public class Scene
     }
 
 
-    public void add(Geometry object)
+    public void addObject(Geometry object)
     {
         objects.add(object);
     }
 
-    public void remove(Geometry object)
+    public void removeObject(Geometry object)
     {
         objects.remove(object);
     }

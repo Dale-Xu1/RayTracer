@@ -12,8 +12,6 @@ import java.util.concurrent.TimeUnit;
 public class Camera extends Transformation
 {
 
-    private Vector3 position = Vector3.ZERO;
-
     private final int width;
     private final int height;
 
@@ -54,14 +52,14 @@ public class Camera extends Transformation
 
                 pool.submit(() ->
                 {
-                    // Calculate direction
+                    // Calculate direction TODO: Anti-aliasing and depth of field
                     Vector3 direction = getNormalTransform().mult(new Vector3(x, y, 1)).normalize();
-                    Ray ray = new Ray(position, direction);
+                    Ray ray = new Ray(getPosition(), direction);
 
                     // Trace ray
                     Color color = scene.traceRay(ray);
 
-                    pixels[index] = (byte) Math.min(color.r * 255, 255);
+                    pixels[index] = (byte) Math.min(color.r * 255, 255); // TODO: HDR?
                     pixels[index + 1] = (byte) Math.min(color.g * 255, 255);
                     pixels[index + 2] = (byte) Math.min(color.b * 255, 255);
                 });
@@ -77,9 +75,6 @@ public class Camera extends Transformation
 
 
     @Override
-    protected void transform()
-    {
-        position = getTransform().mult(Vector3.ZERO);
-    }
+    protected void transform() { }
 
 }
