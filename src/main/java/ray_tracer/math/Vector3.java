@@ -14,6 +14,33 @@ public class Vector3
     public static final double EPSILON = 1e-5;
 
 
+    public static Vector3 randomInCircle()
+    {
+        double a = Math.random() * (Math.PI * 2);
+        double r = Math.sqrt(Math.random());
+
+        return new Vector3(Math.cos(a) * r, Math.sin(a) * r, 0);
+    }
+
+    public static Vector3 randomInSphere()
+    {
+        // Sample random location within a sphere
+        double u = Math.random();
+        double v = Math.random();
+
+        double theta = u * (Math.PI * 2);
+        double phi = Math.acos((v * 2) - 1);
+
+        double r = Math.cbrt(Math.random());
+
+        return new Vector3(
+            r * Math.sin(phi) * Math.cos(theta),
+            r * Math.sin(phi) * Math.sin(theta),
+            r * Math.cos(phi)
+        );
+    }
+
+
     public final double x;
     public final double y;
     public final double z;

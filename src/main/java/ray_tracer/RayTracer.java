@@ -45,7 +45,7 @@ public class RayTracer extends Parent
 
         // Create scene
         Emission background = new Emission(gray);
-        Scene scene = new Scene(background, 20, 0, 4);
+        Scene scene = new Scene(background, 16, 4);
 
         scene.addObject(new Triangle(
             new Emission(Color.WHITE, 2),

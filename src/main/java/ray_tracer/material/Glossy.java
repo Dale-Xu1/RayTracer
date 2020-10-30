@@ -51,7 +51,7 @@ public class Glossy extends Material
         for (int i = 0; i < samples; i++)
         {
             // Sample roughness value
-            Vector3 sample = scene.randomInSphere().mult(roughness);
+            Vector3 sample = Vector3.randomInSphere().mult(roughness);
 
             // Calculate reflection ray
             Vector3 reflection = direction.sub(normal.mult(2 * normal.dot(direction))).add(sample);

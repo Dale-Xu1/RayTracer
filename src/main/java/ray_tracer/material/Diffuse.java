@@ -24,7 +24,7 @@ public class Diffuse extends Material
 
         for (int i = 0; i < samples; i++)
         {
-            Vector3 sample = scene.randomInSphere();
+            Vector3 sample = Vector3.randomInSphere();
 
             // Calculate ray
             Vector3 position = intersection.getPosition();

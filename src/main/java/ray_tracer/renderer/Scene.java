@@ -6,43 +6,40 @@ import ray_tracer.math.Vector3;
 import ray_tracer.object.Intersection;
 import ray_tracer.object.Ray;
 import ray_tracer.object.geometry.Geometry;
+import ray_tracer.object.light.Light;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Scene
 {
 
     private Emission background;
-    private final List<Geometry> objects = new ArrayList<>(); // TODO: Lights
 
-    private Random random;
+    private final List<Geometry> objects = new ArrayList<>();
+    private final List<Light> lights = new ArrayList<>();
 
     private int samples;
-    private int seed;
-    private int maxDepth;
+    private int bounces;
 
 
-    public Scene(Emission background, int samples, int seed, int maxDepth)
+    public Scene(Emission background, int samples, int bounces)
     {
         this.background = background;
         this.samples = samples;
-        this.maxDepth = maxDepth;
-
-        setSeed(seed);
+        this.bounces = bounces;
     }
 
     public Scene(Emission background)
     {
-        this(background, 8, 0, 4);
+        this(background, 8, 4);
     }
 
 
     public Color traceRay(Ray ray)
     {
         // This is black because light can't come from nowhere
-        if (ray.getDepth() > maxDepth) return Color.BLACK;
+        if (ray.getDepth() > bounces) return Color.BLACK;
 
         Intersection minIntersection = null;
 
@@ -74,32 +71,6 @@ public class Scene
         return background.shader(this, null);
     }
 
-    public Vector3 randomInCircle()
-    {
-        double a = random.nextDouble() * (Math.PI * 2);
-        double r = Math.sqrt(random.nextDouble());
-
-        return new Vector3(Math.cos(a) * r, Math.sin(a) * r, 0);
-    }
-
-    public Vector3 randomInSphere() // TODO: Move to Vector3
-    {
-        // Sample random location within a sphere
-        double u = random.nextDouble();
-        double v = random.nextDouble();
-
-        double theta = u * (Math.PI * 2);
-        double phi = Math.acos((v * 2) - 1);
-
-        double r = Math.cbrt(random.nextDouble());
-
-        return new Vector3(
-            r * Math.sin(phi) * Math.cos(theta),
-            r * Math.sin(phi) * Math.sin(theta),
-            r * Math.cos(phi)
-        );
-    }
-
 
     public void addObject(Geometry object)
     {
@@ -109,6 +80,16 @@ public class Scene
     public void removeObject(Geometry object)
     {
         objects.remove(object);
+    }
+
+    public void addLight(Light light)
+    {
+        lights.add(light);
+    }
+
+    public void removeLight(Light light)
+    {
+        lights.remove(light);
     }
 
 
@@ -132,25 +113,14 @@ public class Scene
         this.samples = samples;
     }
 
-    public int getSeed()
+    public int getBounces()
     {
-        return seed;
+        return bounces;
     }
 
-    public void setSeed(int seed)
+    public void setBounces(int bounces)
     {
-        this.seed = seed;
-        this.random = new Random(seed);
-    }
-
-    public int getMaxDepth()
-    {
-        return maxDepth;
-    }
-
-    public void setMaxDepth(int maxDepth)
-    {
-        this.maxDepth = maxDepth;
+        this.bounces = bounces;
     }
 
 }
