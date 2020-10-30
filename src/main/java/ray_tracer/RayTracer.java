@@ -10,13 +10,17 @@ import ray_tracer.material.Glossy;
 import ray_tracer.math.Color;
 import ray_tracer.math.Matrix4;
 import ray_tracer.math.Vector3;
+import ray_tracer.object.geometry.Geometry;
 import ray_tracer.object.geometry.Mesh;
 import ray_tracer.object.geometry.Sphere;
 import ray_tracer.object.geometry.Triangle;
+import ray_tracer.object.light.DirectionalLight;
+import ray_tracer.object.light.Light;
 import ray_tracer.renderer.Camera;
 import ray_tracer.renderer.Scene;
 
 import java.nio.ByteBuffer;
+import java.util.List;
 
 public class RayTracer extends Parent
 {
@@ -41,22 +45,23 @@ public class RayTracer extends Parent
 
     private void render() // TODO: Refraction and fresnel
     {
-        Color gray = new Color(0.85, 0.85, 0.85);
-
         // Create scene
-        Emission background = new Emission(gray);
+        Emission background = new Emission(new Color(0.3, 0.3, 0.3));
         Scene scene = new Scene(background, 16, 4);
 
-        scene.addObject(new Triangle(
+        List<Geometry> objects = scene.getObjects();
+        List<Light> lights = scene.getLights();
+
+        objects.add(new Triangle(
             new Emission(Color.WHITE, 2),
             new Vector3(-1, 0, -1),
             new Vector3(1, 0, -1),
             new Vector3(1, 0, 1)
         ));
 
-        scene.addObject(new Mesh(
+        objects.add(new Mesh(
             new Triangle(
-                new Diffuse(gray),
+                new Diffuse(new Color(0.85, 0.85, 0.85)),
                 new Vector3(-0.7, 0.1, -1.3),
                 new Vector3(1.3, 0.1, 0.7),
                 new Vector3(-0.7, 0.1, 0.7)
@@ -69,16 +74,20 @@ public class RayTracer extends Parent
             )
         ));
 
-        scene.addObject(new Triangle(
-            new Glossy(gray, 0),
+        objects.add(new Triangle(
+            new Glossy(new Color(0.85, 0.85, 0.85), 0),
             new Vector3(0.7, 0, 0.1),
             new Vector3(-0.3, 0, -0.2),
             new Vector3(-0.3, 1, -0.2)
         ));
 
-        Sphere sphere = new Sphere(new Glossy(new Color(0.7, 0.8, 1)), 0.5);
+        Sphere sphere = new Sphere(new Diffuse(new Color(0.7, 0.8, 1)), 0.5);
         sphere.translate(new Vector3(-0.6, 0.1, -0.5));
-        scene.addObject(sphere);
+        objects.add(sphere);
+
+        DirectionalLight light = new DirectionalLight(new Emission(Color.WHITE, 0.8));
+        lights.add(light);
+        light.rotateX(0.5);
 
         Camera camera = new Camera(WIDTH, HEIGHT, 70);
         camera.setTransform(Matrix4.lookAt(new Vector3(1, 1.3, -1.3), Vector3.ZERO));

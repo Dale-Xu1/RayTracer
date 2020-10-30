@@ -72,24 +72,14 @@ public class Scene
     }
 
 
-    public void addObject(Geometry object)
+    public List<Geometry> getObjects()
     {
-        objects.add(object);
+        return objects;
     }
 
-    public void removeObject(Geometry object)
+    public List<Light> getLights()
     {
-        objects.remove(object);
-    }
-
-    public void addLight(Light light)
-    {
-        lights.add(light);
-    }
-
-    public void removeLight(Light light)
-    {
-        lights.remove(light);
+        return lights;
     }
 
 

@@ -1,6 +1,8 @@
 package ray_tracer.object.light;
 
 import ray_tracer.material.Emission;
+import ray_tracer.math.Vector3;
+import ray_tracer.object.Ray;
 import ray_tracer.object.Transformation;
 
 public abstract class Light extends Transformation
@@ -24,5 +26,8 @@ public abstract class Light extends Transformation
     {
         this.emission = emission;
     }
+
+
+    public abstract Ray createRay(Vector3 position);
 
 }
