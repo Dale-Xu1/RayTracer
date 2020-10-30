@@ -46,7 +46,7 @@ public class RayTracer extends Parent
 
         // Create scene
         Emission background = new Emission(gray);
-        Scene scene = new Scene(background, 16, 0, 4);
+        Scene scene = new Scene(background, 20, 0, 4);
 
         scene.add(new Triangle(
             new Emission(Color.WHITE, 2),
@@ -84,12 +84,19 @@ public class RayTracer extends Parent
         Camera camera = new Camera(WIDTH, HEIGHT, 70);
         camera.setTransform(Matrix4.lookAt(new Vector3(1, 1.3, -1.3), Vector3.ZERO));
 
-        // Render scene
-        byte[] pixels = camera.render(scene);
+        try
+        {
+            // Render scene
+            byte[] pixels = camera.render(scene);
 
-        // Draw image
-        PixelFormat<ByteBuffer> format = PixelFormat.getByteRgbInstance();
-        writer.setPixels(0, 0, WIDTH, HEIGHT, format, pixels, 0, WIDTH * 3);
+            // Draw image
+            PixelFormat<ByteBuffer> format = PixelFormat.getByteRgbInstance();
+            writer.setPixels(0, 0, WIDTH, HEIGHT, format, pixels, 0, WIDTH * 3);
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
     }
 
 }

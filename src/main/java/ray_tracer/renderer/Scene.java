@@ -74,6 +74,14 @@ public class Scene
         return background.shader(this, null);
     }
 
+    public Vector3 randomInCircle()
+    {
+        double a = random.nextDouble() * (Math.PI * 2);
+        double r = Math.sqrt(random.nextDouble());
+
+        return new Vector3(Math.cos(a) * r, Math.sin(a) * r, 0);
+    }
+
     public Vector3 randomInSphere()
     {
         // Sample random location within a sphere
@@ -83,7 +91,7 @@ public class Scene
         double theta = u * (Math.PI * 2);
         double phi = Math.acos((v * 2) - 1);
 
-        double r = Math.cbrt(Math.random());
+        double r = Math.cbrt(random.nextDouble());
 
         return new Vector3(
             r * Math.sin(phi) * Math.cos(theta),

@@ -5,6 +5,10 @@ import ray_tracer.math.Vector3;
 import ray_tracer.object.Ray;
 import ray_tracer.object.Transformation;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 public class Camera extends Transformation
 {
 
@@ -29,8 +33,9 @@ public class Camera extends Transformation
     }
 
 
-    public byte[] render(Scene scene)
+    public byte[] render(Scene scene) throws InterruptedException
     {
+        ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         byte[] pixels = new byte[width * height * 3];
 
         // Calculate scales
@@ -45,19 +50,27 @@ public class Camera extends Transformation
                 double x = (2 * (i + 0.5) / width - 1) * aspectRatio * scale;
                 double y = (1 - 2 * (j + 0.5) / height) * scale;
 
-                // Calculate direction
-                Vector3 direction = getNormalTransform().mult(new Vector3(x, y, 1)).normalize();
-                Ray ray = new Ray(position, direction);
-
-                // Trace ray
-                Color color = scene.traceRay(ray);
                 int index = (j * width * 3) + (i * 3);
 
-                pixels[index] = (byte) Math.min(color.r * 255, 255);
-                pixels[index + 1] = (byte) Math.min(color.g * 255, 255);
-                pixels[index + 2] = (byte) Math.min(color.b * 255, 255);
+                pool.submit(() ->
+                {
+                    // Calculate direction
+                    Vector3 direction = getNormalTransform().mult(new Vector3(x, y, 1)).normalize();
+                    Ray ray = new Ray(position, direction);
+
+                    // Trace ray
+                    Color color = scene.traceRay(ray);
+
+                    pixels[index] = (byte) Math.min(color.r * 255, 255);
+                    pixels[index + 1] = (byte) Math.min(color.g * 255, 255);
+                    pixels[index + 2] = (byte) Math.min(color.b * 255, 255);
+                });
             }
         }
+
+        // Wait for threads to finish
+        pool.shutdown();
+        pool.awaitTermination(1, TimeUnit.MINUTES);
 
         return pixels;
     }
