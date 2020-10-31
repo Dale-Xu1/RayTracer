@@ -22,6 +22,8 @@ public class Main extends Application
         stage.setTitle("Ray Tracer");
         stage.setScene(new Scene(rayTracer));
         stage.show();
+
+        rayTracer.render();
     }
 
 }

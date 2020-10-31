@@ -33,7 +33,6 @@ public class Diffuse extends Material
         Color direct = Color.BLACK;
 
         Vector3 position = intersection.getPosition();
-        Vector3 normal = intersection.getNormal();
 
         for (Light light : scene.getLights())
         {
@@ -47,7 +46,7 @@ public class Diffuse extends Material
 
                 // Get color and brightness
                 Color color = light.getEmission().shader(scene, null);
-                double brightness = Math.max(0, normal.dot(ray.getDirection()));
+                double brightness = orenNayer(intersection, ray);
 
                 emission = emission.add(color.mult(brightness));
             }
@@ -69,6 +68,20 @@ public class Diffuse extends Material
         }
 
         return false;
+    }
+
+    private double orenNayer(Intersection intersection, Ray light)
+    {
+        Vector3 normal = intersection.getNormal();
+
+//        double vn = intersection.getRay().getDirection().dot(normal);
+//        double ln = light.getDirection().dot(normal);
+//
+//        double ct = ln;
+//        double tr = Math.acos(vn);
+//        double ti = Math.acos(ct);
+        
+        return Math.max(0, light.getDirection().dot(normal));
     }
 
 

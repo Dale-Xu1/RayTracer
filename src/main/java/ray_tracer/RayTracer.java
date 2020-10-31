@@ -2,7 +2,6 @@ package ray_tracer;
 
 import javafx.scene.Parent;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelWriter;
 import ray_tracer.material.Diffuse;
 import ray_tracer.material.Emission;
@@ -19,7 +18,6 @@ import ray_tracer.object.light.Light;
 import ray_tracer.renderer.Camera;
 import ray_tracer.renderer.Scene;
 
-import java.nio.ByteBuffer;
 import java.util.List;
 
 public class RayTracer extends Parent
@@ -39,14 +37,13 @@ public class RayTracer extends Parent
         getChildren().add(canvas);
 
         writer = canvas.getGraphicsContext2D().getPixelWriter();
-        new Thread(this::render).start();
     }
 
 
-    private void render() // TODO: Refraction and fresnel
+    public void render() // TODO: Refraction and fresnel
     {
         // Create scene
-        Emission background = new Emission(new Color(0.3, 0.3, 0.3));
+        Emission background = new Emission(new Color(0.6, 0.6, 0.6));
         Scene scene = new Scene(background, 16, 4);
 
         List<Geometry> objects = scene.getObjects();
@@ -61,7 +58,7 @@ public class RayTracer extends Parent
 
         objects.add(new Mesh(
             new Triangle(
-                new Diffuse(new Color(0.85, 0.85, 0.85)),
+                new Diffuse(new Color(0.7, 0.7, 0.7)),
                 new Vector3(-0.7, 0.1, -1.3),
                 new Vector3(1.3, 0.1, 0.7),
                 new Vector3(-0.7, 0.1, 0.7)
@@ -85,26 +82,15 @@ public class RayTracer extends Parent
         sphere.translate(new Vector3(-0.6, 0.1, -0.5));
         objects.add(sphere);
 
-        DirectionalLight light = new DirectionalLight(new Emission(Color.WHITE, 0.8));
+        DirectionalLight light = new DirectionalLight(new Emission(Color.WHITE, 0.6));
         lights.add(light);
         light.rotateX(0.5);
 
-        Camera camera = new Camera(WIDTH, HEIGHT, 70);
-        camera.setTransform(Matrix4.lookAt(new Vector3(1, 1.3, -1.3), Vector3.ZERO));
+        Camera camera = new Camera(writer, WIDTH, HEIGHT);
+        camera.setTransform(Matrix4.lookAt(new Vector3(1.1, 1.7, -1.7), Vector3.ZERO));
 
-        try
-        {
-            // Render scene
-            byte[] pixels = camera.render(scene);
-
-            // Draw image
-            PixelFormat<ByteBuffer> format = PixelFormat.getByteRgbInstance();
-            writer.setPixels(0, 0, WIDTH, HEIGHT, format, pixels, 0, WIDTH * 3);
-        }
-        catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
+        // Render scene
+        camera.render(scene);
     }
 
 }
