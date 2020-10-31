@@ -11,9 +11,29 @@ import ray_tracer.renderer.Scene;
 public class Diffuse extends Material
 {
 
-    public Diffuse(Color color)
+    private double roughness;
+
+
+    public Diffuse(Color color, double roughness)
     {
         super(color);
+        this.roughness = roughness;
+    }
+
+    public Diffuse(Color color)
+    {
+        this(color, 0.5);
+    }
+
+
+    public double getRoughness()
+    {
+        return roughness;
+    }
+
+    public void setRoughness(double roughness)
+    {
+        this.roughness = roughness;
     }
 
 
@@ -46,7 +66,7 @@ public class Diffuse extends Material
 
                 // Get color and brightness
                 Color color = light.getEmission().shader(scene, null);
-                double brightness = orenNayer(intersection, ray);
+                double brightness = shade(intersection, ray.getDirection());
 
                 emission = emission.add(color.mult(brightness));
             }
@@ -70,18 +90,27 @@ public class Diffuse extends Material
         return false;
     }
 
-    private double orenNayer(Intersection intersection, Ray light)
+    private double shade(Intersection intersection, Vector3 light)
     {
+        Vector3 view = intersection.getRay().getDirection();
         Vector3 normal = intersection.getNormal();
 
-//        double vn = intersection.getRay().getDirection().dot(normal);
-//        double ln = light.getDirection().dot(normal);
-//
-//        double ct = ln;
-//        double tr = Math.acos(vn);
-//        double ti = Math.acos(ct);
-        
-        return Math.max(0, light.getDirection().dot(normal));
+        double vn = view.dot(normal);
+        double ln = light.dot(normal);
+
+        double tr = Math.acos(vn);
+        double ti = Math.acos(ln);
+        double cp = view.sub(normal.mult(vn)).normalize().dot(light.sub(normal.mult(ln)).normalize());
+
+        double alpha = Math.max(ti, tr);
+        double beta = Math.min(ti, tr);
+        double sigma = roughness * roughness;
+
+        double a = 1 - (0.5 * sigma / (sigma + 0.33));
+        double b = 0.45 * (sigma / (sigma + 0.09));
+
+        b *= (cp > 0) ? cp * Math.sin(alpha) * Math.tan(beta) : 0;
+        return Math.max(0, ln * (a + b));
     }
 
 

@@ -23,8 +23,8 @@ import java.util.List;
 public class RayTracer extends Parent
 {
 
-    private static final int WIDTH = 300;
-    private static final int HEIGHT = 300;
+    private static final int WIDTH = 720;
+    private static final int HEIGHT = 480;
 
 
     private final PixelWriter writer;

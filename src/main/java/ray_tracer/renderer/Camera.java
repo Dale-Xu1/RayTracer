@@ -16,11 +16,11 @@ public class Camera extends Transformation
 
     private final PixelWriter writer;
 
-    private final int width;
-    private final int height;
+    private int width;
+    private int height;
 
-    private final int batch;
-    private final double fov;
+    private int batch;
+    private double fov;
 
 
     public Camera(PixelWriter writer, int width, int height, int batch, double fov)
@@ -37,6 +37,47 @@ public class Camera extends Transformation
     public Camera(PixelWriter writer, int width, int height)
     {
         this(writer, width, height, 16, 50);
+    }
+
+
+    public int getWidth()
+    {
+        return width;
+    }
+
+    public void setWidth(int width)
+    {
+        this.width = width;
+    }
+
+    public int getHeight()
+    {
+        return height;
+    }
+
+    public void setHeight(int height)
+    {
+        this.height = height;
+    }
+
+    public int getBatch()
+    {
+        return batch;
+    }
+
+    public void setBatch(int batch)
+    {
+        this.batch = batch;
+    }
+
+    public double getFov()
+    {
+        return fov;
+    }
+
+    public void setFov(double fov)
+    {
+        this.fov = fov;
     }
 
 
