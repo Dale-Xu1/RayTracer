@@ -92,6 +92,8 @@ public class Diffuse extends Material
 
     private double shade(Intersection intersection, Vector3 light)
     {
+//        return Math.max(0, intersection.getNormal().dot(light) / Math.PI);
+
         Vector3 view = intersection.getRay().getDirection();
         Vector3 normal = intersection.getNormal();
 
@@ -110,7 +112,7 @@ public class Diffuse extends Material
         double b = 0.45 * (sigma / (sigma + 0.09));
 
         b *= (cp > 0) ? cp * Math.sin(alpha) * Math.tan(beta) : 0;
-        return Math.max(0, ln * (a + b));
+        return Math.max(0, ln * (a + b) / Math.PI);
     }
 
 

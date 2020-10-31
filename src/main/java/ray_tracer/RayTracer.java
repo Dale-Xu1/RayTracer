@@ -43,7 +43,7 @@ public class RayTracer extends Parent
     public void render() // TODO: Refraction and fresnel
     {
         // Create scene
-        Emission background = new Emission(new Color(0.6, 0.6, 0.6));
+        Emission background = new Emission(new Color(0.75, 0.75, 0.75));
         Scene scene = new Scene(background, 16, 4);
 
         List<Geometry> objects = scene.getObjects();
@@ -78,13 +78,17 @@ public class RayTracer extends Parent
             new Vector3(-0.3, 1, -0.2)
         ));
 
-        Sphere sphere = new Sphere(new Diffuse(new Color(0.7, 0.8, 1)), 0.5);
+        Sphere sphere = new Sphere(new Glossy(new Color(0.7, 0.8, 1)), 0.5);
         sphere.translate(new Vector3(-0.6, 0.1, -0.5));
         objects.add(sphere);
 
-        DirectionalLight light = new DirectionalLight(new Emission(Color.WHITE, 0.6));
-        lights.add(light);
-        light.rotateX(0.5);
+        DirectionalLight light1 = new DirectionalLight(new Emission(Color.WHITE, 0.5));
+        lights.add(light1);
+        light1.rotateX(0.5);
+
+        DirectionalLight light2 = new DirectionalLight(new Emission(Color.WHITE, 0.5));
+        lights.add(light2);
+        light2.rotateZ(0.5);
 
         Camera camera = new Camera(writer, WIDTH, HEIGHT);
         camera.setTransform(Matrix4.lookAt(new Vector3(1.1, 1.7, -1.7), Vector3.ZERO));

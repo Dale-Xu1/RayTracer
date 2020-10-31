@@ -54,9 +54,10 @@ public class Glossy extends Material
             Vector3 sample = Vector3.randomInSphere().mult(roughness);
 
             // Calculate reflection ray
-            Vector3 reflection = direction.sub(normal.mult(2 * normal.dot(direction))).add(sample);
-            Ray reflectionRay = new Ray(intersection.getPosition(), reflection, ray.getDepth() + 1);
+            Vector3 reflection = direction.sub(normal.mult(2 * normal.dot(direction)));
+            int depth = ray.getDepth() + 1;
 
+            Ray reflectionRay = new Ray(intersection.getPosition(), reflection.add(sample).normalize(), depth);
             indirect = indirect.add(scene.traceRay(reflectionRay));
         }
 
