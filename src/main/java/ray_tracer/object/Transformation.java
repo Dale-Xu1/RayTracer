@@ -12,17 +12,27 @@ public abstract class Transformation
     private Vector3 position = Vector3.ZERO;
 
 
-    protected Matrix4 getTransform()
+    public Matrix4 getTransform()
     {
         return transform;
     }
 
-    protected Matrix4 getNormalTransform()
+    public void setTransform(Matrix4 transform)
+    {
+        // Set transformation
+        this.transform = transform;
+        normalTransform = transform.inverse().transpose();
+
+        position = getTransform().mult(Vector3.ZERO);
+    }
+
+
+    public Matrix4 getNormalTransform()
     {
         return normalTransform;
     }
 
-    protected Vector3 getPosition()
+    public Vector3 getPosition()
     {
         return position;
     }
@@ -68,16 +78,6 @@ public abstract class Transformation
     public void scale(Vector3 vector)
     {
         scale(vector.x, vector.y, vector.z);
-    }
-
-
-    public void setTransform(Matrix4 transform)
-    {
-        // Set transformation
-        this.transform = transform;
-        normalTransform = transform.inverse().transpose();
-
-        position = getTransform().mult(Vector3.ZERO);
     }
 
 }

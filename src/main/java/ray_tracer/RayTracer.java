@@ -78,7 +78,7 @@ public class RayTracer extends Parent
             new Vector3(-0.3, 1, -0.2)
         ));
 
-        Sphere sphere = new Sphere(new Glossy(new Color(0.7, 0.8, 1)), 0.5);
+        Sphere sphere = new Sphere(new Glossy(new Color(0.7, 0.8, 1), 0.3), 0.5);
         sphere.translate(new Vector3(-0.6, 0.1, -0.5));
         objects.add(sphere);
 
@@ -86,7 +86,7 @@ public class RayTracer extends Parent
         lights.add(light1);
         light1.rotateX(0.5);
 
-        DirectionalLight light2 = new DirectionalLight(new Emission(Color.WHITE, 0.5));
+        DirectionalLight light2 = new DirectionalLight(new Emission(Color.WHITE, 0.5), 0.1);
         lights.add(light2);
         light2.rotateZ(0.5);
 

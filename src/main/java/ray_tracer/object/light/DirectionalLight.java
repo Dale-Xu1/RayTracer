@@ -9,29 +9,32 @@ public class DirectionalLight extends Light
 {
 
     private Vector3 direction = Vector3.UP;
-    private double softness;
+
+    private double angle;
+    private double size;
 
 
-    public DirectionalLight(Emission emission, double softness)
+    public DirectionalLight(Emission emission, double angle)
     {
         super(emission);
-        this.softness = softness;
+        setAngle(angle);
     }
 
     public DirectionalLight(Emission emission)
     {
-        this(emission, 0.05);
+        this(emission, 0.01);
     }
 
 
-    public double getSoftness()
+    public double getAngle()
     {
-        return softness;
+        return angle;
     }
 
-    public void setSoftness(double softness)
+    public void setAngle(double angle)
     {
-        this.softness = softness;
+        this.angle = angle;
+        this.size = Math.tan(angle);
     }
 
 
@@ -39,7 +42,7 @@ public class DirectionalLight extends Light
     public Ray createRay(Vector3 position)
     {
         // Create shadow ray
-        Vector3 shadow = direction.add(Vector3.randomInSphere().mult(softness)).normalize();
+        Vector3 shadow = direction.add(Vector3.randomInSphere().mult(size)).normalize();
         return new Ray(position, shadow);
     }
 

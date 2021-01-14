@@ -6,7 +6,7 @@ import ray_tracer.object.Intersection;
 import ray_tracer.object.Ray;
 import ray_tracer.renderer.Scene;
 
-public class Glossy extends Material
+public class Glossy extends LightMaterial
 {
 
     private double roughness;
@@ -38,6 +38,15 @@ public class Glossy extends Material
     @Override
     public Color shader(Scene scene, Intersection intersection)
     {
+        Color direct = direct(scene, intersection);
+        Color indirect = indirect(scene, intersection);
+
+        // Take average of samples
+        return getColor().mult(direct.add(indirect));
+    }
+
+    private Color indirect(Scene scene, Intersection intersection)
+    {
         // Get data
         Ray ray = intersection.getRay();
 
@@ -62,7 +71,19 @@ public class Glossy extends Material
         }
 
         // Take average of samples
-        return getColor().mult(indirect.div(samples));
+        return indirect.div(samples);
+    }
+
+
+    @Override
+    protected double shade(Intersection intersection, Vector3 light)
+    {
+        // Gaussian distribution
+        Vector3 h = light.sub(intersection.getRay().getDirection()).normalize();
+        double a = Math.acos(h.dot(intersection.getNormal()));
+
+        double e = a / roughness;
+        return Math.exp(-e * e);
     }
 
 }
