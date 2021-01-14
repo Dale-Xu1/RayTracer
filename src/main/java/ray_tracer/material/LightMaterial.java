@@ -20,13 +20,13 @@ public abstract class LightMaterial extends Material
     protected Color direct(Scene scene, Intersection intersection)
     {
         // Sample direct lighting
-        int samples = scene.getSamples();
         Color direct = Color.BLACK;
-
         Vector3 position = intersection.getPosition();
 
         for (Light light : scene.getLights())
         {
+            // Only one sample is required if size is 0
+            int samples = (light.getSize() == 0) ? 1 : scene.getSamples();
             Color emission = Color.BLACK;
 
             for (int i = 0; i < samples; i++)

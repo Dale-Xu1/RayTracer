@@ -8,16 +8,20 @@ import ray_tracer.object.Ray;
 public class DirectionalLight extends Light
 {
 
-    private Vector3 direction = Vector3.UP;
+    private static double calculateSize(double angle)
+    {
+        return Math.tan(angle);
+    }
 
+
+    private Vector3 direction = Vector3.UP;
     private double angle;
-    private double size;
 
 
     public DirectionalLight(Emission emission, double angle)
     {
-        super(emission);
-        setAngle(angle);
+        super(emission, calculateSize(angle));
+        this.angle = angle;
     }
 
     public DirectionalLight(Emission emission)
@@ -34,7 +38,7 @@ public class DirectionalLight extends Light
     public void setAngle(double angle)
     {
         this.angle = angle;
-        this.size = Math.tan(angle);
+        setSize(calculateSize(angle));
     }
 
 
@@ -42,7 +46,7 @@ public class DirectionalLight extends Light
     public Ray createRay(Vector3 position)
     {
         // Create shadow ray
-        Vector3 shadow = direction.add(Vector3.randomInSphere().mult(size)).normalize();
+        Vector3 shadow = direction.add(Vector3.randomInSphere().mult(getSize())).normalize();
         return new Ray(position, shadow);
     }
 

@@ -9,11 +9,13 @@ public abstract class Light extends Transformation
 {
 
     private Emission emission;
+    private double size;
 
 
-    protected Light(Emission emission)
+    protected Light(Emission emission, double size)
     {
         this.emission = emission;
+        this.size = size;
     }
 
 
@@ -25,6 +27,16 @@ public abstract class Light extends Transformation
     public void setEmission(Emission emission)
     {
         this.emission = emission;
+    }
+
+    public double getSize()
+    {
+        return size;
+    }
+
+    protected void setSize(double size)
+    {
+        this.size = size;
     }
 
 

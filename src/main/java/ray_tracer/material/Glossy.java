@@ -78,6 +78,8 @@ public class Glossy extends LightMaterial
     @Override
     protected double shade(Intersection intersection, Vector3 light)
     {
+        if (roughness == 0) return 0;
+
         // Gaussian distribution
         Vector3 h = light.sub(intersection.getRay().getDirection()).normalize();
         double a = Math.acos(h.dot(intersection.getNormal()));
