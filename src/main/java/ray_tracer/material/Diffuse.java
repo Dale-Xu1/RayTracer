@@ -36,15 +36,7 @@ public class Diffuse extends LightMaterial
 
 
     @Override
-    public Color shader(Scene scene, Intersection intersection)
-    {
-        Color direct = direct(scene, intersection);
-        Color indirect = indirect(scene, intersection);
-
-        return getColor().mult(direct.add(indirect));
-    }
-
-    private Color indirect(Scene scene, Intersection intersection)
+    protected Color indirect(Scene scene, Intersection intersection)
     {
         // Sample indirect lighting
         int samples = scene.getSamples();
@@ -66,9 +58,8 @@ public class Diffuse extends LightMaterial
         return indirect.div(samples);
     }
 
-
     @Override
-    protected double shade(Intersection intersection, Vector3 light)
+    public double light(Intersection intersection, Vector3 light)
     {
         Vector3 view = intersection.getRay().getDirection();
         Vector3 normal = intersection.getNormal();

@@ -39,4 +39,10 @@ public class Emission extends Material
         return getColor().mult(strength);
     }
 
+    @Override
+    protected Color indirect(Scene scene, Intersection intersection)
+    {
+        return null;
+    }
+
 }

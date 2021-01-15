@@ -27,6 +27,12 @@ public abstract class Material
     }
 
 
-    public abstract Color shader(Scene scene, Intersection intersection);
+    public Color shader(Scene scene, Intersection intersection)
+    {
+        Color indirect = indirect(scene, intersection);
+        return color.mult(indirect);
+    }
+
+    protected abstract Color indirect(Scene scene, Intersection intersection);
 
 }

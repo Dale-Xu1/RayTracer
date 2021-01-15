@@ -36,16 +36,7 @@ public class Glossy extends LightMaterial
 
 
     @Override
-    public Color shader(Scene scene, Intersection intersection)
-    {
-        Color direct = direct(scene, intersection);
-        Color indirect = indirect(scene, intersection);
-
-        // Take average of samples
-        return getColor().mult(direct.add(indirect));
-    }
-
-    private Color indirect(Scene scene, Intersection intersection)
+    protected Color indirect(Scene scene, Intersection intersection)
     {
         // Get data
         Ray ray = intersection.getRay();
@@ -74,9 +65,8 @@ public class Glossy extends LightMaterial
         return indirect.div(samples);
     }
 
-
     @Override
-    protected double shade(Intersection intersection, Vector3 light)
+    public double light(Intersection intersection, Vector3 light)
     {
         if (roughness == 0) return 0;
 

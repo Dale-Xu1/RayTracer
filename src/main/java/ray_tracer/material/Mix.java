@@ -58,12 +58,16 @@ public class Mix extends Material
     @Override
     public Color shader(Scene scene, Intersection intersection)
     {
-        // TODO: Refactor a bunch of stuff so this works properly
-        // The problem is that this shader takes 2x the amount of samples the user wants
         Color color1 = material1.shader(scene, intersection);
         Color color2 = material2.shader(scene, intersection);
 
         return color1.mult(factor).add(color2.mult(1 - factor));
+    }
+
+    @Override
+    protected Color indirect(Scene scene, Intersection intersection)
+    {
+        return null;
     }
 
 }
