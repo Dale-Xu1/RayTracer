@@ -26,11 +26,11 @@ public abstract class LightMaterial extends Material
 
     private Color direct(Scene scene, Intersection intersection)
     {
-        // Sample direct lighting
+        // Sum direct lighting
         Color direct = Color.BLACK;
         for (Light light : scene.getLights())
         {
-            direct = direct.add(light.shader(scene, intersection));
+            direct = direct.add(light.shader(scene, intersection, this));
         }
 
         return direct;

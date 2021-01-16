@@ -45,10 +45,9 @@ public abstract class Light extends Transformation
     }
 
 
-    public Color shader(Scene scene, Intersection intersection)
+    public Color shader(Scene scene, Intersection intersection, LightMaterial material)
     {
         Vector3 position = intersection.getPosition();
-        LightMaterial material = (LightMaterial) intersection.getMaterial();
 
         // Only one sample is required if size is 0
         int samples = (size == 0) ? 1 : scene.getSamples();
@@ -56,8 +55,8 @@ public abstract class Light extends Transformation
 
         for (int i = 0; i < samples; i++)
         {
-            // Create ray
-            Ray ray = createRay(position);
+            // Create shadow ray
+            Ray ray = shadow(position);
             if (intersectsObjects(scene, ray)) continue;
 
             // Get color and brightness
@@ -71,7 +70,7 @@ public abstract class Light extends Transformation
         return light.div(samples);
     }
 
-    public abstract Ray createRay(Vector3 position);
+    protected abstract Ray shadow(Vector3 position);
 
     private boolean intersectsObjects(Scene scene, Ray ray)
     {

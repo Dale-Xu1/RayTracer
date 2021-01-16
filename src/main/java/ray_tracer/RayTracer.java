@@ -6,6 +6,7 @@ import javafx.scene.image.PixelWriter;
 import ray_tracer.material.Diffuse;
 import ray_tracer.material.Emission;
 import ray_tracer.material.Glossy;
+import ray_tracer.material.Mix;
 import ray_tracer.math.Color;
 import ray_tracer.math.Matrix4;
 import ray_tracer.math.Vector3;
@@ -78,7 +79,14 @@ public class RayTracer extends Parent
             new Vector3(-0.3, 1, -0.2)
         ));
 
-        Sphere sphere = new Sphere(new Glossy(new Color(0.7, 0.8, 1), 0.3), 0.5);
+        Sphere sphere = new Sphere(
+            new Mix(
+                new Diffuse(new Color(0.7, 0.8, 1)),
+                new Glossy(new Color(0.85, 0.85, 0.85), 0.1),
+                0.1
+            ),
+            0.5
+        );
         sphere.translate(new Vector3(-0.6, 0.1, -0.5));
         objects.add(sphere);
 

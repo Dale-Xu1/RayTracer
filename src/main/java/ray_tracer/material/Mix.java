@@ -7,41 +7,41 @@ import ray_tracer.renderer.Scene;
 public class Mix extends Material
 {
 
-    private Material material1;
-    private Material material2;
+    private Material a;
+    private Material b;
 
     private double factor;
 
 
-    public Mix(Material material1, Material material2, double factor)
+    public Mix(Material a, Material b, double factor)
     {
         super(null);
 
-        this.material1 = material1;
-        this.material2 = material2;
+        this.a = a;
+        this.b = b;
 
         this.factor = factor;
     }
 
 
-    public Material getMaterial1()
+    public Material getA()
     {
-        return material1;
+        return a;
     }
 
-    public void setMaterial1(Material material1)
+    public void setA(Material a)
     {
-        this.material1 = material1;
+        this.a = a;
     }
 
-    public Material getMaterial2()
+    public Material getB()
     {
-        return material2;
+        return b;
     }
 
-    public void setMaterial2(Material material2)
+    public void setB(Material b)
     {
-        this.material2 = material2;
+        this.b = b;
     }
 
     public double getFactor()
@@ -58,10 +58,11 @@ public class Mix extends Material
     @Override
     public Color shader(Scene scene, Intersection intersection)
     {
-        Color color1 = material1.shader(scene, intersection);
-        Color color2 = material2.shader(scene, intersection);
+        Color colorA = a.shader(scene, intersection);
+        Color colorB = b.shader(scene, intersection);
 
-        return color1.mult(factor).add(color2.mult(1 - factor));
+        // Linearly interpolate two colors
+        return colorA.mult(1 - factor).add(colorB.mult(factor));
     }
 
     @Override

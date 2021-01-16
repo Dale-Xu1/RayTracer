@@ -53,7 +53,7 @@ public class Sphere extends Geometry
         Vector3 intersection = pos.add(dir.mult(distance));
         Vector3 normal = intersection.sub(position).normalize();
 
-        return new Intersection(ray, intersection, normal, distance, getMaterial());
+        return new Intersection(ray, getMaterial(), intersection, normal, distance);
     }
 
 }

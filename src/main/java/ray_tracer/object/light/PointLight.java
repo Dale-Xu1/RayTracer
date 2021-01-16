@@ -25,7 +25,7 @@ public class PointLight extends Light
     }
 
     @Override
-    public Ray createRay(Vector3 position)
+    protected Ray shadow(Vector3 position)
     {
         return null;
     }

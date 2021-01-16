@@ -7,28 +7,34 @@ public class Intersection
 {
 
     private final Ray ray;
+    private final Material material;
 
     private final Vector3 position;
     private final Vector3 normal;
 
     private final double distance;
 
-    private final Material material;
 
-
-    public Intersection(Ray ray, Vector3 position, Vector3 normal, double distance, Material material)
+    public Intersection(Ray ray, Material material, Vector3 position, Vector3 normal, double distance)
     {
         this.ray = ray;
+        this.material = material;
+
         this.position = position;
         this.normal = normal;
+
         this.distance = distance;
-        this.material = material;
     }
 
 
     public Ray getRay()
     {
         return ray;
+    }
+
+    public Material getMaterial()
+    {
+        return material;
     }
 
     public Vector3 getPosition()
@@ -44,11 +50,6 @@ public class Intersection
     public double getDistance()
     {
         return distance;
-    }
-
-    public Material getMaterial()
-    {
-        return material;
     }
 
 }

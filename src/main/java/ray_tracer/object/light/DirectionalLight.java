@@ -43,7 +43,7 @@ public class DirectionalLight extends Light
 
 
     @Override
-    public Ray createRay(Vector3 position)
+    protected Ray shadow(Vector3 position)
     {
         // Create shadow ray
         Vector3 shadow = direction.add(Vector3.randomInSphere().mult(getSize())).normalize();

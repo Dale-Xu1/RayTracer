@@ -111,7 +111,7 @@ public class Triangle extends Geometry
         Vector3 position = pos.add(dir.mult(distance));
         Vector3 surface = (a < Vector3.EPSILON) ? normal.negate() : normal;
 
-        return new Intersection(ray, position, surface, distance, getMaterial());
+        return new Intersection(ray, getMaterial(), position, surface, distance);
     }
 
 
